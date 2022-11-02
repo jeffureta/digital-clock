@@ -1,25 +1,35 @@
-const clock = document.getElementById("clock");
-const hoursDiv = document.getElementById("hours");
-const minutesDiv = document.getElementById("minutes");
-const secondsDiv = document.getElementById("seconds");
-const hourPeriod = document.getElementById("hourPeriod");
-function showTime() {
-    let date = new Date();
-    let hours = date.getHours();
-    hours = hours % 12;
-    hours = hours ? hours : 12; //ternary
-    console.log(hours);
-    let minutes = date.getMinutes().toString();
-    let seconds = date.getSeconds().toString();
-    if (hours < 12) {
-        //clock.textContent =  `${("0"+hours).substr(-2)}:${("0"+minutes).substr(-2)}:${("0"+seconds).substr(-2)} PM`
-        hoursDiv.textContent = `${("0" + hours).substr(-2)}`;
-        minutesDiv.textContent = `${("0" + minutes).substr(-2)}`;
-        secondsDiv.textContent = `${("0" + seconds).substr(-2)}`;
-        hourPeriod.textContent = "PM";
-
+function convertToString(number) {
+    let time = number.toString();
+    return `${("0" + time).substr(-2)}`
+}
+function getHours() {
+    return new Date().getHours();
+}
+function getMinutes() {
+    return new Date().getMinutes();
+}
+function getSeconds() {
+    return new Date().getSeconds();
+}
+function getHourPeriod() {
+    getHours();
+    if (getHours() > 12) {
+        return "PM"
     } else {
-        //clock.textContent = `${("0"+hours).substr(-2)}:${("0"+minutes).substr(-2)}:${("0"+seconds).substr(-2)} AM`
+        return "AM"
     }
 }
+function getTwelveHourFormat() {
+    if (getHours() > 12) {
+        return getHours() - 12
+    } else {
+        return getHours();
+    }
+};
+function showTime() {
+    document.getElementById("hours").textContent = `${convertToString(getTwelveHourFormat())}`;
+    document.getElementById("minutes").textContent = `${convertToString(getMinutes())}`;
+    document.getElementById("seconds").textContent = `${convertToString(getSeconds())}`;
+    document.getElementById("hourPeriod").textContent = getHourPeriod();
+};
 setInterval(showTime, 1000);
